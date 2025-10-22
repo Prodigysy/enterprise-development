@@ -5,7 +5,7 @@ namespace RealEstateAgency.Domain.Model;
 /// <summary>
 /// Заявка контрагента на объект недвижимости
 /// </summary>
-public class Application
+public class RealEstateApplication
 {
     /// <summary>
     /// Идентификатор заявки
@@ -30,5 +30,10 @@ public class Application
     /// <summary>
     /// Сумма заявки
     /// </summary>
-    public required double Amount { get; set; }
+    public decimal? Amount { get; set; }
+
+    /// <summary>
+    /// Дата создания заявки
+    /// </summary>
+    public DateOnly DateCreated { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 }
