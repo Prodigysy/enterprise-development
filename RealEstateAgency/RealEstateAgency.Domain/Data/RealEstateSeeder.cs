@@ -34,8 +34,8 @@ public class RealEstateSeeder
             {
                 Id = 1,
                 FirstName = "Иван",
-                LastName = "Иванов",
                 Patronymic = "Иванович",
+                LastName = "Иванов",
                 PassportNumber = "4010 123456",
                 PhoneNumber = "89030000001"
             },
@@ -43,8 +43,8 @@ public class RealEstateSeeder
             {
                 Id = 2,
                 FirstName = "Мария",
-                LastName = "Петрова",
                 Patronymic = "Сергеевна",
+                LastName = "Петрова",
                 PassportNumber = "4010 123457",
                 PhoneNumber = "89030000002"
             },
@@ -52,8 +52,8 @@ public class RealEstateSeeder
             {
                 Id = 3,
                 FirstName = "Алексей",
-                LastName = "Сидоров",
                 Patronymic = "Алексеевич",
+                LastName = "Сидоров",
                 PassportNumber = "4010 123458",
                 PhoneNumber = "89030000003"
             },
@@ -61,8 +61,8 @@ public class RealEstateSeeder
             {
                 Id = 4,
                 FirstName = "Екатерина",
-                LastName = "Кузнецова",
                 Patronymic = "Игоревна",
+                LastName = "Кузнецова",
                 PassportNumber = "4010 123459",
                 PhoneNumber = "89030000004"
             },
@@ -70,8 +70,8 @@ public class RealEstateSeeder
             {
                 Id = 5,
                 FirstName = "Дмитрий",
-                LastName = "Новиков",
                 Patronymic = "Петрович",
+                LastName = "Новиков",
                 PassportNumber = "4010 123460",
                 PhoneNumber = "89030000005"
             },
@@ -79,8 +79,8 @@ public class RealEstateSeeder
             {
                 Id = 6,
                 FirstName = "Ольга",
-                LastName = "Морозова",
                 Patronymic = "Сергеевна",
+                LastName = "Морозова",
                 PassportNumber = "4010 123461",
                 PhoneNumber = "89030000006"
             },
@@ -88,8 +88,8 @@ public class RealEstateSeeder
             {
                 Id = 7,
                 FirstName = "Сергей",
-                LastName = "Васильев",
                 Patronymic = "Игоревич",
+                LastName = "Васильев",
                 PassportNumber = "4010 123462",
                 PhoneNumber = "89030000007"
             },
@@ -97,8 +97,8 @@ public class RealEstateSeeder
             {
                 Id = 8,
                 FirstName = "Анастасия",
-                LastName = "Соколова",
                 Patronymic = "Александровна",
+                LastName = "Соколова",
                 PassportNumber = "4010 123463",
                 PhoneNumber = "89030000008"
             },
@@ -106,8 +106,8 @@ public class RealEstateSeeder
             {
                 Id = 9,
                 FirstName = "Никита",
-                LastName = "Лебедев",
                 Patronymic = "Дмитриевич",
+                LastName = "Лебедев",
                 PassportNumber = "4010 123464",
                 PhoneNumber = "89030000009"
             },
@@ -115,8 +115,8 @@ public class RealEstateSeeder
             {
                 Id = 10,
                 FirstName = "Татьяна",
-                LastName = "Егорова",
                 Patronymic = "Викторовна",
+                LastName = "Егорова",
                 PassportNumber = "4010 123465",
                 PhoneNumber = "89030000010"
             }
@@ -274,7 +274,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[0],
                 RealEstate = RealEstates[0],
                 ApplicationType = ApplicationType.Purchase,
-                Amount = 5500000
+                Amount = 5500000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-10))
             },
             new RealEstateApplication
             {
@@ -282,7 +283,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[1],
                 RealEstate = RealEstates[1],
                 ApplicationType = ApplicationType.Purchase,
-                Amount = 12000000
+                Amount = 12000000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-20))
             },
             new RealEstateApplication
             {
@@ -290,7 +292,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[2],
                 RealEstate = RealEstates[2],
                 ApplicationType = ApplicationType.Purchase,
-                Amount = 1800000
+                Amount = 1800000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-15))
             },
             new RealEstateApplication
             {
@@ -298,7 +301,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[3],
                 RealEstate = RealEstates[3],
                 ApplicationType = ApplicationType.Sale,
-                Amount = 25000000
+                Amount = 25000000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-5))
             },
             new RealEstateApplication
             {
@@ -306,7 +310,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[4],
                 RealEstate = RealEstates[4],
                 ApplicationType = ApplicationType.Sale,
-                Amount = 8000000
+                Amount = 8000000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-12))
             },
             new RealEstateApplication
             {
@@ -314,7 +319,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[5],
                 RealEstate = RealEstates[5],
                 ApplicationType = ApplicationType.Purchase,
-                Amount = 500000
+                Amount = 500000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-25))
             },
             new RealEstateApplication
             {
@@ -322,7 +328,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[6],
                 RealEstate = RealEstates[6],
                 ApplicationType = ApplicationType.Sale,
-                Amount = 200000
+                Amount = 200000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-18))
             },
             new RealEstateApplication
             {
@@ -330,7 +337,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[7],
                 RealEstate = RealEstates[7],
                 ApplicationType = ApplicationType.Purchase,
-                Amount = 7500000
+                Amount = 7500000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-2))
             },
             new RealEstateApplication
             {
@@ -338,7 +346,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[8],
                 RealEstate = RealEstates[8],
                 ApplicationType = ApplicationType.Purchase,
-                Amount = 9000000
+                Amount = 9000000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-8))
             },
             new RealEstateApplication
             {
@@ -346,7 +355,8 @@ public class RealEstateSeeder
                 Counterparty = Counterparties[9],
                 RealEstate = RealEstates[9],
                 ApplicationType = ApplicationType.Sale,
-                Amount = 18000000
+                Amount = 18000000,
+                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-1))
             }
         ]);
     }
