@@ -29,4 +29,4 @@ jobs:
         run: dotnet build ./RealEstateAgency/RealEstateAgency.sln --no-restore
 
       - name: Run tests
-        run: dotnet test ./RealEstateAgency/RealEstateAgency.Tests/RealEstateAgency.Tests.csproj --no-build --verbosity detailed
+        run: dotnet test ./RealEstateAgency/RealEstateAgency.Test/RealEstateAgency.Test.csproj --no-build --verbosity detailed
