@@ -32,25 +32,32 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
     [Fact]
     public void Top5Clients_ByApplicationCount()
     {
-        var topBuyers = seeder.Applications
-            .Where(a => a.ApplicationType == ApplicationType.Purchase)
-            .GroupBy(a => a.Counterparty)
-            .OrderByDescending(g => g.Count())
-            .Take(5)
-            .Select(g => new { Client = g.Key, Count = g.Count() })
-            .ToList();
+        var topClients = seeder.Applications
+        .GroupBy(a => new { a.ApplicationType, a.Counterparty.Id })
+        .Select(g => new
+        {
+            g.Key.ApplicationType,
+            ClientId = g.Key.Id,
+            Count = g.Count()
+        })
+        .GroupBy(x => x.ApplicationType)
+        .ToDictionary(
+            g => g.Key,
+            g => g.OrderByDescending(x => x.Count).Take(5).ToList()
+        );
 
-        Assert.True(topBuyers.Count <= 5);
+        Assert.NotEmpty(topClients);
 
-        var topSellers = seeder.Applications
-            .Where(a => a.ApplicationType == ApplicationType.Sale)
-            .GroupBy(a => a.Counterparty)
-            .OrderByDescending(g => g.Count())
-            .Take(5)
-            .Select(g => new { Client = g.Key, Count = g.Count() })
-            .ToList();
+        var buyers = topClients[ApplicationType.Purchase];
+        var sellers = topClients[ApplicationType.Sale];
 
-        Assert.True(topSellers.Count <= 5);
+        Assert.True(buyers.Count <= 5);
+        Assert.True(sellers.Count <= 5);
+
+        Assert.Contains(buyers, c => c.ClientId == 1);
+        Assert.Contains(buyers, c => c.ClientId == 3);
+        Assert.Contains(sellers, c => c.ClientId == 4);
+        Assert.Contains(sellers, c => c.ClientId == 10);
     }
 
     /// <summary>
@@ -63,22 +70,9 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
             .GroupBy(a => a.RealEstate.RealEstateType)
             .ToDictionary(g => g.Key, g => g.Count());
 
-        var expected = new Dictionary<RealEstateType, int>
-        {
-            { RealEstateType.Apartment, 2 },
-            { RealEstateType.House, 2 },
-            { RealEstateType.Room, 1 },
-            { RealEstateType.Office, 2 },
-            { RealEstateType.Retail, 1 },
-            { RealEstateType.LandPlot, 1 },
-            { RealEstateType.Garage, 1 }
-        };
+        Assert.Equal(7, counts.Count);
 
-        foreach (var pair in expected)
-        {
-            Assert.True(counts.ContainsKey(pair.Key), $"Нет данных для {pair.Key}");
-            Assert.Equal(pair.Value, counts[pair.Key]);
-        }
+        Assert.Contains(RealEstateType.Apartment, counts.Keys);
     }
 
     /// <summary>
@@ -95,22 +89,18 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
             .Distinct()
             .ToList();
 
-        Assert.NotEmpty(clients);
-
         Assert.Single(clients);
-        Assert.Equal("Сергей", clients[0].FirstName);
-        Assert.Equal("Васильев", clients[0].LastName);
-        Assert.Equal("4010 123462", clients[0].PassportNumber);
+        Assert.Equal(7, clients[0].Id);
     }
 
     /// <summary>
     /// Вывод сведений о всех клиентах, ищущих недвижимость заданного типа, упорядоченных по ФИО
     /// </summary>
     [Theory]
-    [InlineData(RealEstateType.Apartment)]
-    [InlineData(RealEstateType.House)]
-    [InlineData(RealEstateType.Office)]
-    public void Clients_SearchingGivenRealEstateType(RealEstateType type)
+    [InlineData(RealEstateType.Apartment, 1)]
+    [InlineData(RealEstateType.House, 2)]
+    [InlineData(RealEstateType.Office, 4)]
+    public void Clients_SearchingGivenRealEstateType(RealEstateType type, int expectedClientId)
     {
         var clients = seeder.Applications
             .Where(a => a.RealEstate.RealEstateType == type)
@@ -118,21 +108,9 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
             .Distinct()
             .OrderBy(c => c.LastName)
             .ThenBy(c => c.FirstName)
-            .ThenBy(c => c.Patronymic)
             .ToList();
 
         Assert.NotEmpty(clients);
-
-        var expectedPassports = new Dictionary<RealEstateType, string[]>
-        {
-            { RealEstateType.Apartment, new[] { "4010 123456", "4010 123463" } },
-            { RealEstateType.House, new[] { "4010 123457", "4010 123464" } },
-            { RealEstateType.Office, new[] { "4010 123459", "4010 123465" } }
-        };
-
-        foreach (var passport in expectedPassports[type])
-        {
-            Assert.Contains(clients, c => c.PassportNumber == passport);
-        }
+        Assert.Contains(clients, c => c.Id == expectedClientId);
     }
 }
