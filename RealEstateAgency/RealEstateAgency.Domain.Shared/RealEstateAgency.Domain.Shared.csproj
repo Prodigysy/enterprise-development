@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RealEstateAgency.Domain.Shared\RealEstateAgency.Domain.Shared.csproj" />
-  </ItemGroup>
-
 </Project>

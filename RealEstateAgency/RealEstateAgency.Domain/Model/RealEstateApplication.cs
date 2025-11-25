@@ -1,4 +1,4 @@
-﻿using RealEstateAgency.Domain.Enum;
+﻿using RealEstateAgency.Domain.Shared.Enum;
 
 namespace RealEstateAgency.Domain.Model;
 
@@ -12,15 +12,19 @@ public class RealEstateApplication
     /// </summary>
     public required int Id { get; set; }
 
+    public required int CounterpartyId { get; set; }
+
     /// <summary>
     /// Контрагент
     /// </summary>
-    public required Counterparty Counterparty { get; set; }
+    public Counterparty? Counterparty { get; set; }
+
+    public required int RealEstateId { get; set; }
 
     /// <summary>
     /// Объект недвижимости
     /// </summary>
-    public required RealEstate RealEstate { get; set; }
+    public RealEstate? RealEstate { get; set; }
 
     /// <summary>
     /// Тип заявки
@@ -35,5 +39,5 @@ public class RealEstateApplication
     /// <summary>
     /// Дата создания заявки
     /// </summary>
-    public DateOnly DateCreated { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly DateCreated { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
 }

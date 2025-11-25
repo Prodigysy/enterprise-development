@@ -1,5 +1,6 @@
 ﻿using RealEstateAgency.Domain.Enum;
 using RealEstateAgency.Domain.Model;
+using RealEstateAgency.Domain.Shared.Enum;
 
 namespace RealEstateAgency.Domain.Data;
 
@@ -271,8 +272,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 1,
-                Counterparty = Counterparties[0],
-                RealEstate = RealEstates[0],
+                CounterpartyId = Counterparties[0].Id,
+                RealEstateId = RealEstates[0].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 5500000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-10))
@@ -280,8 +281,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 2,
-                Counterparty = Counterparties[1],
-                RealEstate = RealEstates[1],
+                CounterpartyId = Counterparties[1].Id,
+                RealEstateId = RealEstates[1].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 12000000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-20))
@@ -289,8 +290,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 3,
-                Counterparty = Counterparties[2],
-                RealEstate = RealEstates[2],
+                CounterpartyId = Counterparties[2].Id,
+                RealEstateId = RealEstates[2].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 1800000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-15))
@@ -298,8 +299,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 4,
-                Counterparty = Counterparties[3],
-                RealEstate = RealEstates[3],
+                CounterpartyId = Counterparties[3].Id,
+                RealEstateId = RealEstates[3].Id,
                 ApplicationType = ApplicationType.Sale,
                 Amount = 25000000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-5))
@@ -307,8 +308,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 5,
-                Counterparty = Counterparties[4],
-                RealEstate = RealEstates[4],
+                CounterpartyId = Counterparties[4].Id,
+                RealEstateId = RealEstates[4].Id,
                 ApplicationType = ApplicationType.Sale,
                 Amount = 8000000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-12))
@@ -316,8 +317,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 6,
-                Counterparty = Counterparties[5],
-                RealEstate = RealEstates[5],
+                CounterpartyId = Counterparties[5].Id,
+                RealEstateId = RealEstates[5].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 500000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-25))
@@ -325,8 +326,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 7,
-                Counterparty = Counterparties[6],
-                RealEstate = RealEstates[6],
+                CounterpartyId = Counterparties[6].Id,
+                RealEstateId = RealEstates[6].Id,
                 ApplicationType = ApplicationType.Sale,
                 Amount = 200000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-18))
@@ -334,8 +335,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 8,
-                Counterparty = Counterparties[7],
-                RealEstate = RealEstates[7],
+                CounterpartyId = Counterparties[7].Id,
+                RealEstateId = RealEstates[7].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 7500000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-2))
@@ -343,8 +344,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 9,
-                Counterparty = Counterparties[8],
-                RealEstate = RealEstates[8],
+                CounterpartyId = Counterparties[8].Id,
+                RealEstateId = RealEstates[8].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 9000000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-8))
@@ -352,8 +353,8 @@ public class RealEstateSeeder
             new RealEstateApplication
             {
                 Id = 10,
-                Counterparty = Counterparties[9],
-                RealEstate = RealEstates[9],
+                CounterpartyId = Counterparties[9].Id,
+                RealEstateId = RealEstates[9].Id,
                 ApplicationType = ApplicationType.Sale,
                 Amount = 18000000,
                 DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-1))

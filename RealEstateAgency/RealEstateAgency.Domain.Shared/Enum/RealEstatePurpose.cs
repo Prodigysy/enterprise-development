@@ -1,4 +1,4 @@
-﻿namespace RealEstateAgency.Domain.Enum;
+﻿namespace RealEstateAgency.Domain.Shared.Enum;
 
 /// <summary>
 /// Назначение объекта недвижимости

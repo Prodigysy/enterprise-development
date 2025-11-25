@@ -1,4 +1,4 @@
-﻿namespace RealEstateAgency.Domain.Enum;
+﻿namespace RealEstateAgency.Domain.Shared.Enum;
 
 /// <summary>
 /// Тип объекта недвижимости

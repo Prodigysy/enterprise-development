@@ -1,5 +1,5 @@
 ﻿using RealEstateAgency.Domain.Data;
-using RealEstateAgency.Domain.Enum;
+using RealEstateAgency.Domain.Shared.Enum;
 
 namespace RealEstateAgency.Test;
 public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateSeeder>
@@ -16,13 +16,13 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
         var sellers = seeder.Applications
             .Where(a => a.ApplicationType == ApplicationType.Sale)
             .Where(a => a.DateCreated >= start && a.DateCreated <= end)
-            .Select(a => a.Counterparty)
+            .Select(a => a.CounterpartyId)
             .Distinct()
             .ToList();
 
         Assert.NotEmpty(sellers);
-        Assert.Contains(sellers, c => c.PassportNumber == "4010 123459");
-        Assert.Contains(sellers, c => c.PassportNumber == "4010 123465");
+        Assert.Contains(4, sellers);
+        Assert.Contains(10, sellers);
         Assert.Equal(2, sellers.Count);
     }
 
@@ -33,11 +33,11 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
     public void Top5Clients_ByApplicationCount()
     {
         var topClients = seeder.Applications
-        .GroupBy(a => new { a.ApplicationType, a.Counterparty.Id })
+        .GroupBy(a => new { a.ApplicationType, a.CounterpartyId })
         .Select(g => new
         {
             g.Key.ApplicationType,
-            ClientId = g.Key.Id,
+            ClientId = g.Key.CounterpartyId,
             Count = g.Count()
         })
         .GroupBy(x => x.ApplicationType)
@@ -67,11 +67,12 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
     public void ApplicationCount_ByRealEstateType()
     {
         var counts = seeder.Applications
-            .GroupBy(a => a.RealEstate.RealEstateType)
+            .GroupBy(a => a.RealEstateId)
+            .Select(a => seeder.RealEstates.First(r => r.Id == a.Key).RealEstateType)
+            .GroupBy(t => t)
             .ToDictionary(g => g.Key, g => g.Count());
 
         Assert.Equal(7, counts.Count);
-
         Assert.Contains(RealEstateType.Apartment, counts.Keys);
     }
 
@@ -85,12 +86,12 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
 
         var clients = seeder.Applications
             .Where(a => a.Amount == minAmount)
-            .Select(a => a.Counterparty)
+            .Select(a => a.CounterpartyId)
             .Distinct()
             .ToList();
 
         Assert.Single(clients);
-        Assert.Equal(7, clients[0].Id);
+        Assert.Equal(7, clients[0]);
     }
 
     /// <summary>
@@ -103,14 +104,12 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
     public void Clients_SearchingGivenRealEstateType(RealEstateType type, int expectedClientId)
     {
         var clients = seeder.Applications
-            .Where(a => a.RealEstate.RealEstateType == type)
-            .Select(a => a.Counterparty)
+            .Where(a => seeder.RealEstates.First(r => r.Id == a.RealEstateId).RealEstateType == type)
+            .Select(a => a.CounterpartyId)
             .Distinct()
-            .OrderBy(c => c.LastName)
-            .ThenBy(c => c.FirstName)
             .ToList();
 
         Assert.NotEmpty(clients);
-        Assert.Contains(clients, c => c.Id == expectedClientId);
+        Assert.Contains(expectedClientId, clients);
     }
 }
