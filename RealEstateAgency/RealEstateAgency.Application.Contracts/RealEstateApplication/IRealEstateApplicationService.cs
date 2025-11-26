@@ -10,7 +10,7 @@ namespace RealEstateAgency.Application.Contracts.RealEstateApplication;
 /// </summary>
 public interface IRealEstateApplicationService : IApplicationService<RealEstateApplicationDto, RealEstateApplicationCreateUpdateDto, int>
 {
-    // <summary>
+    /// <summary>
     /// Возвращает контрагента, связанного с заявкой
     /// </summary>
     public Task<CounterpartyDto> GetCounterparty(int id);
