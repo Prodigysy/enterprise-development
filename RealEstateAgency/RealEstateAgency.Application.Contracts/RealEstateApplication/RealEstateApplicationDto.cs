@@ -4,11 +4,10 @@ namespace RealEstateAgency.Application.Contracts.RealEstateApplication;
 
 /// <summary>
 /// DTO для отображения заявки на недвижимость
-/// Содержит сведения о контрагенте, объекте недвижимости, типе заявки, сумме и дате создания
+/// Содержит идентификатор заявки, тип заявки, сумму и дату создания
 /// </summary>
-/// <param name="CounterpartyId">Идентификатор контрагента, подавшего заявку</param>
-/// <param name="RealEstateId">Идентификатор объекта недвижимости</param>
+/// <param name="Id">Идентификатор заявки</param>
 /// <param name="ApplicationType">Тип заявки</param>
 /// <param name="Amount">Сумма сделки</param>
 /// <param name="DateCreated">Дата создания заявки</param>
-public record RealEstateApplicationDto(int CounterpartyId, int RealEstateId, ApplicationType ApplicationType, decimal? Amount, DateOnly DateCreated);
+public record RealEstateApplicationDto(int Id, ApplicationType ApplicationType, decimal? Amount, DateOnly DateCreated);

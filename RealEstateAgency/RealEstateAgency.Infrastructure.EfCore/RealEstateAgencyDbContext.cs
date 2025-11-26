@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RealEstateAgency.Domain.Data;
 using RealEstateAgency.Domain.Model;
 
 namespace RealEstateAgency.Infrastructure.EfCore;
@@ -9,7 +10,7 @@ namespace RealEstateAgency.Infrastructure.EfCore;
 /// Содержит DbSet для Counterparty, RealEstate и RealEstateApplication
 /// Настраивает таблицы, поля, ограничения длины строк, связи и каскадное удаление
 /// </summary>
-public class RealEstateAgencyDbContext(DbContextOptions options) : DbContext(options)
+public class RealEstateAgencyDbContext(DbContextOptions options, RealEstateSeeder seeder) : DbContext(options)
 {
     /// <summary>
     /// Таблица контрагентов
@@ -45,6 +46,8 @@ public class RealEstateAgencyDbContext(DbContextOptions options) : DbContext(opt
             builder.Property(c => c.Patronymic).HasMaxLength(50).HasColumnName("patronymic");
             builder.Property(c => c.LastName).IsRequired().HasMaxLength(50).HasColumnName("last_name");
             builder.Property(c => c.PhoneNumber).IsRequired().HasMaxLength(20).HasColumnName("phone_number");
+
+            builder.HasData(seeder.Counterparties);
         });
 
         modelBuilder.Entity<RealEstate>(builder =>
@@ -64,6 +67,8 @@ public class RealEstateAgencyDbContext(DbContextOptions options) : DbContext(opt
             builder.Property(r => r.CeilingHeight).HasColumnName("ceiling_height");
             builder.Property(r => r.FloorNumber).HasColumnName("floor_number");
             builder.Property(r => r.HasEncumbrances).IsRequired().HasColumnName("has_encumbrances");
+
+            builder.HasData(seeder.RealEstates);
         });
 
         modelBuilder.Entity<RealEstateApplication>(builder =>
@@ -88,6 +93,8 @@ public class RealEstateAgencyDbContext(DbContextOptions options) : DbContext(opt
                    .WithMany()
                    .HasForeignKey(r => r.RealEstateId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasData(seeder.Applications);
         });
     }
 }
