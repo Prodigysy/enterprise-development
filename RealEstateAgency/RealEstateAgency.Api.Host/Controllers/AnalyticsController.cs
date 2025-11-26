@@ -21,15 +21,16 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
     [ProducesResponseType(500)]
     public async Task<ActionResult> GetApplicationCountByRealEstateType()
     {
-        logger.LogInformation("GetApplicationCountByRealEstateType called");
+        logger.LogInformation("{method} method of {controller} is called", nameof(GetApplicationCountByRealEstateType), GetType().Name);
         try
         {
             var result = await service.GetApplicationCountByRealEstateType();
+            logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetApplicationCountByRealEstateType), GetType().Name);
             return Ok(result);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in GetApplicationCountByRealEstateType");
+            logger.LogError("An exception happened during {method} method of {controller}: {@exception}", nameof(GetApplicationCountByRealEstateType), GetType().Name, ex);
             return StatusCode(500, ex.Message);
         }
     }
@@ -37,20 +38,21 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
     /// <summary>
     /// Возвращает клиентов, которые ищут недвижимость указанного типа
     /// </summary>
-    [HttpGet("clients-searching-{type}")]
+    [HttpGet("clients-searching-specific-type")]
     [ProducesResponseType(200)]
     [ProducesResponseType(500)]
-    public async Task<ActionResult> GetClientsSearchingRealEstateType(RealEstateType type)
+    public async Task<ActionResult> GetClientsSearchingRealEstateType([FromQuery] RealEstateType type)
     {
-        logger.LogInformation("GetClientsSearchingRealEstateType called with {type}", type);
+        logger.LogInformation("{method} method of {controller} is called with {type}", nameof(GetClientsSearchingRealEstateType), GetType().Name, type);
         try
         {
             var result = await service.GetClientsSearchingRealEstateType(type);
+            logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetClientsSearchingRealEstateType), GetType().Name);
             return Ok(result);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in GetClientsSearchingRealEstateType");
+            logger.LogError("An exception happened during {method} method of {controller}: {@exception}", nameof(GetClientsSearchingRealEstateType), GetType().Name, ex);
             return StatusCode(500, ex.Message);
         }
     }
@@ -63,15 +65,16 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
     [ProducesResponseType(500)]
     public async Task<ActionResult> GetClientsWithMinimumAmountApplications()
     {
-        logger.LogInformation("GetClientsWithMinimumAmountApplications called");
+        logger.LogInformation("{method} method of {controller} is called", nameof(GetClientsWithMinimumAmountApplications), GetType().Name);
         try
         {
             var result = await service.GetClientsWithMinimumAmountApplications();
+            logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetClientsWithMinimumAmountApplications), GetType().Name);
             return Ok(result);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in GetClientsWithMinimumAmountApplications");
+            logger.LogError("An exception happened during {method} method of {controller}: {@exception}", nameof(GetClientsWithMinimumAmountApplications), GetType().Name, ex);
             return StatusCode(500, ex.Message);
         }
     }
@@ -84,15 +87,16 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
     [ProducesResponseType(500)]
     public async Task<ActionResult> GetSellersWithApplicationsInPeriod([FromQuery] DateOnly start, [FromQuery] DateOnly end)
     {
-        logger.LogInformation("GetSellersWithApplicationsInPeriod called: {start} - {end}", start, end);
+        logger.LogInformation("{method} method of {controller} is called: {start} - {end}", nameof(GetSellersWithApplicationsInPeriod), GetType().Name, start, end);
         try
         {
             var result = await service.GetSellersWithApplicationsInPeriod(start, end);
+            logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetSellersWithApplicationsInPeriod), GetType().Name);
             return Ok(result);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in GetSellersWithApplicationsInPeriod");
+            logger.LogError("An exception happened during {method} method of {controller}: {@exception}", nameof(GetSellersWithApplicationsInPeriod), GetType().Name, ex);
             return StatusCode(500, ex.Message);
         }
     }
@@ -105,15 +109,16 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
     [ProducesResponseType(500)]
     public async Task<ActionResult> GetTop5ClientsByApplicationCount()
     {
-        logger.LogInformation("GetTop5ClientsByApplicationCount called");
+        logger.LogInformation("{method} method of {controller} is called", nameof(GetTop5ClientsByApplicationCount), GetType().Name);
         try
         {
             var result = await service.GetTop5ClientsByApplicationCount();
+            logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetTop5ClientsByApplicationCount), GetType().Name);
             return Ok(result);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in GetTop5ClientsByApplicationCount");
+            logger.LogError("An exception happened during {method} method of {controller}: {@exception}", nameof(GetTop5ClientsByApplicationCount), GetType().Name, ex);
             return StatusCode(500, ex.Message);
         }
     }
