@@ -1,5 +1,4 @@
-﻿using RealEstateAgency.Domain.Enum;
-using RealEstateAgency.Domain.Model;
+﻿using RealEstateAgency.Domain.Model;
 using RealEstateAgency.Domain.Shared.Enum;
 
 namespace RealEstateAgency.Domain.Data;

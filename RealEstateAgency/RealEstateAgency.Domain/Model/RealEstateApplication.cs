@@ -12,6 +12,9 @@ public class RealEstateApplication
     /// </summary>
     public required int Id { get; set; }
 
+    /// <summary>
+    /// Идентификатор контрагента
+    /// </summary>
     public required int CounterpartyId { get; set; }
 
     /// <summary>
@@ -19,6 +22,9 @@ public class RealEstateApplication
     /// </summary>
     public Counterparty? Counterparty { get; set; }
 
+    /// <summary>
+    /// Идентификатор объекта недвижимости
+    /// </summary>
     public required int RealEstateId { get; set; }
 
     /// <summary>
