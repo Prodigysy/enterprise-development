@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RealEstateAgency.Api.Host\RealEstateAgency.Api.Host.csproj" />
+    <ProjectReference Include="..\RealEstateAgency.Generator.RabbitMq.Host\RealEstateAgency.Generator.RabbitMq.Host.csproj" />
   </ItemGroup>
 
 </Project>

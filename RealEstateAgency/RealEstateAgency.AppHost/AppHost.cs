@@ -8,4 +8,6 @@ builder.AddProject<Projects.RealEstateAgency_Api_Host>("realestateagency-api-hos
     .WithReference(realEstateAgencyDb, "DatabaseConnection")
     .WaitFor(realEstateAgencyDb);
 
+builder.AddProject<Projects.RealEstateAgency_Generator_RabbitMq_Host>("realestateagency-generator-rabbitmq-host");
+
 builder.Build().Run();
