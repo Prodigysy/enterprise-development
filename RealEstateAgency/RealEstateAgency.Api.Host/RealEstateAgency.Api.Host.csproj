@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.5.2" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.1.0" />
+    <PackageReference Include="Aspire.RabbitMQ.Client" Version="13.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RealEstateAgency.Application\RealEstateAgency.Application.csproj" />
     <ProjectReference Include="..\RealEstateAgency.Infrastructure.EfCore\RealEstateAgency.Infrastructure.EfCore.csproj" />
+    <ProjectReference Include="..\RealEstateAgency.Infrastructure.RabbitMq\RealEstateAgency.Infrastructure.RabbitMq.csproj" />
     <ProjectReference Include="..\RealEstateAgency.ServiceDefaults\RealEstateAgency.ServiceDefaults.csproj" />
   </ItemGroup>
 

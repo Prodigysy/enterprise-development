@@ -10,6 +10,7 @@ using RealEstateAgency.Domain.Data;
 using RealEstateAgency.Domain.Model;
 using RealEstateAgency.Infrastructure.EfCore;
 using RealEstateAgency.Infrastructure.EfCore.Repository;
+using RealEstateAgency.Infrastructure.RabbitMq;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +55,10 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.AddNpgsqlDbContext<RealEstateAgencyDbContext>("DatabaseConnection");
+
+builder.Services.AddHostedService<RealEstateAgencyRabbitMqConsumer>();
+
+builder.AddRabbitMQClient("real-estate-agency-rabbitmq");
 
 var app = builder.Build();
 
