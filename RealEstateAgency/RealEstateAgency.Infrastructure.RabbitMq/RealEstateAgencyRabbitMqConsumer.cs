@@ -4,6 +4,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
+using RealEstateAgency.Application.Contracts;
+using RealEstateAgency.Application.Contracts.Counterparty;
+using RealEstateAgency.Application.Contracts.RealEstate;
 using RealEstateAgency.Application.Contracts.RealEstateApplication;
 using System.Text;
 using System.Text.Json;
@@ -59,7 +63,7 @@ public class RealEstateAgencyRabbitMqConsumer(
         if (_channel is null)
             throw new InvalidOperationException("RabbitMQ channel was not created.");
 
-        await WaitForQueueAsync(_channel, _opts.QueueName, stoppingToken);
+        _channel = await WaitForQueueAsync(_opts.QueueName, stoppingToken);
 
         var consumer = new AsyncEventingBasicConsumer(_channel);
 
@@ -84,13 +88,28 @@ public class RealEstateAgencyRabbitMqConsumer(
                 }
 
                 using var scope = scopeFactory.CreateScope();
-                var appService = scope.ServiceProvider.GetRequiredService<IRealEstateApplicationService>();
 
-                await appService.Create(dto);
+                var applicationService = scope.ServiceProvider.GetRequiredService<IRealEstateApplicationService>();
+                var objectService = scope.ServiceProvider.GetRequiredService<IApplicationService<RealEstateDto, RealEstateCreateUpdateDto, int>>();
+                var counterpartyService = scope.ServiceProvider.GetRequiredService<IApplicationService<CounterpartyDto, CounterpartyCreateUpdateDto, int>>();
 
-                await _channel.BasicAckAsync(ea.DeliveryTag, multiple: false);
+                try
+                {
+                    _ = await counterpartyService.Get(dto.CounterpartyId);
+                    _ = await objectService.Get(dto.RealEstateId);
 
-                logger.LogInformation("Message processed OK. DeliveryTag={DeliveryTag} Queue={Queue}", ea.DeliveryTag, _opts.QueueName);
+                    await applicationService.Create(dto);
+
+                    await _channel.BasicAckAsync(ea.DeliveryTag, multiple: false);
+
+                    logger.LogInformation("Message processed OK. DeliveryTag={DeliveryTag} Queue={Queue} CounterpartyId={CounterpartyId} RealEstateId={RealEstateId}", ea.DeliveryTag, _opts.QueueName, dto.CounterpartyId, dto.RealEstateId);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    logger.LogWarning(ex, "Invalid references in message. Rejecting without requeue. DeliveryTag={DeliveryTag} CounterpartyId={CounterpartyId} RealEstateId={RealEstateId}", ea.DeliveryTag, dto.CounterpartyId, dto.RealEstateId);
+
+                    await _channel.BasicRejectAsync(ea.DeliveryTag, requeue: false);
+                }
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
             {
@@ -110,26 +129,51 @@ public class RealEstateAgencyRabbitMqConsumer(
     /// <summary>
     /// Ожидание появления очереди без её создания чтобы consumer мог стартовать раньше продюсера
     /// </summary>
-    /// <param name="channel">Канал RabbitMQ</param>
     /// <param name="queueName">Имя очереди которую должен создать продюсер</param>
     /// <param name="ct">Токен отмены ожидания</param>
-    private async Task WaitForQueueAsync(IChannel channel, string queueName, CancellationToken ct)
+    private async Task<IChannel> WaitForQueueAsync(string queueName, CancellationToken ct)
     {
         while (!ct.IsCancellationRequested)
         {
+            IChannel? channel = null;
+
             try
             {
+                channel = await connection.CreateChannelAsync(cancellationToken: ct);
+
+                await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: _opts.PrefetchCount, global: false, cancellationToken: ct);
+
                 await channel.QueueDeclarePassiveAsync(queueName, ct);
+
                 logger.LogInformation("RabbitMQ queue is available. Queue={Queue}", queueName);
-                return;
+
+                return channel;
+            }
+            catch (OperationInterruptedException ex) when (ex.ShutdownReason?.ReplyCode == 404)
+            {
+                logger.LogWarning("RabbitMQ queue not found yet. Waiting... Queue={Queue}, RetryDelaySec={Delay}", queueName, _opts.QueueWaitRetryDelaySeconds);
+
+                if (channel is not null)
+                {
+                    try { await channel.DisposeAsync(); } catch { }
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(_opts.QueueWaitRetryDelaySeconds), ct);
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex, "RabbitMQ queue not found yet. Waiting... Queue={Queue}, RetryDelaySec={Delay}", queueName, _opts.QueueWaitRetryDelaySeconds);
+                logger.LogError(ex, "RabbitMQ error while waiting for queue. Queue={Queue}, RetryDelaySec={Delay}", queueName, _opts.QueueWaitRetryDelaySeconds);
+
+                if (channel is not null)
+                {
+                    try { await channel.DisposeAsync(); } catch { }
+                }
 
                 await Task.Delay(TimeSpan.FromSeconds(_opts.QueueWaitRetryDelaySeconds), ct);
             }
         }
+
+        throw new OperationCanceledException(ct);
     }
 
     /// <summary>

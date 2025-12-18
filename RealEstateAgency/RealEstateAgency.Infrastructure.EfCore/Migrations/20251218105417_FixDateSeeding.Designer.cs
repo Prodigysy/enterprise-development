@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RealEstateAgency.Infrastructure.EfCore;
@@ -11,9 +12,11 @@ using RealEstateAgency.Infrastructure.EfCore;
 namespace RealEstateAgency.Infrastructure.EfCore.Migrations
 {
     [DbContext(typeof(RealEstateAgencyDbContext))]
-    partial class RealEstateAgencyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251218105417_FixDateSeeding")]
+    partial class FixDateSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

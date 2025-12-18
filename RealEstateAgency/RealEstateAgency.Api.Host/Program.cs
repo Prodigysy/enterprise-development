@@ -58,6 +58,8 @@ builder.AddNpgsqlDbContext<RealEstateAgencyDbContext>("DatabaseConnection");
 
 builder.Services.AddHostedService<RealEstateAgencyRabbitMqConsumer>();
 
+builder.Services.Configure<RabbitMqOptions>(builder.Configuration.GetSection("RabbitMq"));
+
 builder.AddRabbitMQClient("real-estate-agency-rabbitmq");
 
 var app = builder.Build();

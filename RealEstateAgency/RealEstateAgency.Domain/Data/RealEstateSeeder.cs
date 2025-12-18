@@ -275,7 +275,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[0].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 5500000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-10))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-10))
             },
             new RealEstateApplication
             {
@@ -284,7 +284,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[1].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 12000000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-20))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-20))
             },
             new RealEstateApplication
             {
@@ -293,7 +293,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[2].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 1800000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-15))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-15))
             },
             new RealEstateApplication
             {
@@ -302,7 +302,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[3].Id,
                 ApplicationType = ApplicationType.Sale,
                 Amount = 25000000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-5))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-5))
             },
             new RealEstateApplication
             {
@@ -311,7 +311,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[4].Id,
                 ApplicationType = ApplicationType.Sale,
                 Amount = 8000000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-12))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-12))
             },
             new RealEstateApplication
             {
@@ -320,7 +320,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[5].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 500000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-25))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-25))
             },
             new RealEstateApplication
             {
@@ -329,7 +329,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[6].Id,
                 ApplicationType = ApplicationType.Sale,
                 Amount = 200000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-18))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-18))
             },
             new RealEstateApplication
             {
@@ -338,7 +338,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[7].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 7500000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-2))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-2))
             },
             new RealEstateApplication
             {
@@ -347,7 +347,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[8].Id,
                 ApplicationType = ApplicationType.Purchase,
                 Amount = 9000000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-8))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-8))
             },
             new RealEstateApplication
             {
@@ -356,7 +356,7 @@ public class RealEstateSeeder
                 RealEstateId = RealEstates[9].Id,
                 ApplicationType = ApplicationType.Sale,
                 Amount = 18000000,
-                DateCreated = DateOnly.FromDateTime(DateTime.Now.AddDays(-1))
+                DateCreated = DateOnly.FromDateTime(new DateTime(2025, 12, 18).AddDays(-1))
             }
         ]);
     }

@@ -10,8 +10,8 @@ public class RealEstateTests(RealEstateSeeder seeder): IClassFixture<RealEstateS
     [Fact]
     public void Sellers_WithApplications_InGivenPeriod()
     {
-        var start = DateOnly.FromDateTime(DateTime.Now).AddDays(-11);
-        var end = DateOnly.FromDateTime(DateTime.Now);
+        var start = DateOnly.FromDateTime(new DateTime(2025, 12, 18)).AddDays(-11);
+        var end = DateOnly.FromDateTime(new DateTime(2025, 12, 18));
 
         var sellers = seeder.Applications
             .Where(a => a.ApplicationType == ApplicationType.Sale)
