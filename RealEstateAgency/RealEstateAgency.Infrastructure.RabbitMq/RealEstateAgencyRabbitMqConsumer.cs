@@ -40,28 +40,12 @@ public class RealEstateAgencyRabbitMqConsumer(
     private string? _consumerTag;
 
     /// <summary>
-    /// Инициализация канала и настройка prefetch для ограничения количества сообщений в обработке
-    /// </summary>
-    /// <param name="cancellationToken">Токен отмены запуска сервиса</param>
-    public override async Task StartAsync(CancellationToken cancellationToken)
-    {
-        _channel = await connection.CreateChannelAsync(cancellationToken: cancellationToken);
-
-        await _channel.BasicQosAsync(prefetchSize: 0, prefetchCount: _opts.PrefetchCount, global: false, cancellationToken: cancellationToken);
-
-        logger.LogInformation("RabbitMQ consumer starting. Queue={Queue}, Prefetch={Prefetch}", _opts.QueueName, _opts.PrefetchCount);
-
-        await base.StartAsync(cancellationToken);
-    }
-
-    /// <summary>
     /// Основной цикл consumer который ожидает очередь и запускает обработку входящих сообщений
     /// </summary>
     /// <param name="stoppingToken">Токен остановки сервиса</param>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (_channel is null)
-            throw new InvalidOperationException("RabbitMQ channel was not created.");
+        logger.LogInformation("RabbitMQ consumer starting. Queue={Queue}, Prefetch={Prefetch}", _opts.QueueName, _opts.PrefetchCount);
 
         _channel = await WaitForQueueAsync(_opts.QueueName, stoppingToken);
 
@@ -95,8 +79,8 @@ public class RealEstateAgencyRabbitMqConsumer(
 
                 try
                 {
-                    _ = await counterpartyService.Get(dto.CounterpartyId);
-                    _ = await objectService.Get(dto.RealEstateId);
+                    var counterparty = await counterpartyService.Get(dto.CounterpartyId);
+                    var realEstate = await objectService.Get(dto.RealEstateId);
 
                     await applicationService.Create(dto);
 
@@ -113,7 +97,7 @@ public class RealEstateAgencyRabbitMqConsumer(
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
             {
-
+                logger.LogInformation("Message processing cancelled due to service stopping. DeliveryTag={DeliveryTag} Queue={Queue}", ea.DeliveryTag, _opts.QueueName);
             }
             catch (Exception ex)
             {

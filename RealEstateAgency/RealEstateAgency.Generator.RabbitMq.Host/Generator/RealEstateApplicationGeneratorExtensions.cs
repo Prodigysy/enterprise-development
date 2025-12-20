@@ -14,6 +14,6 @@ public static class RealEstateApplicationGeneratorExtensions
     /// <typeparam name="T">Параметр типа генерируемых данных</typeparam>
     /// <param name="faker">Генератор данных</param>
     public static Faker<T> WithRecord<T>(this Faker<T> faker) where T : class =>
-        faker.CustomInstantiator(factoryMethod: _ => RuntimeHelpers.GetUninitializedObject(typeof(T)) as T);
+        faker.CustomInstantiator(factoryMethod: _ => (T)RuntimeHelpers.GetUninitializedObject(typeof(T)));
 
 }

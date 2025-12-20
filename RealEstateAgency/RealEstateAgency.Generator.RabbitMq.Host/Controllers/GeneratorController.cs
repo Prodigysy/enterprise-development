@@ -17,6 +17,7 @@ public class GeneratorController(ILogger<GeneratorController> logger, RealEstate
     /// <param name="batchSize">Размер одной партии сообщений</param>
     /// <param name="payloadLimit">Общее количество сообщений для генерации и отправки</param>
     /// <param name="waitTime">Задержка между батчами в секундах</param>
+    /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Список сгенерированных DTO</returns>
     [HttpGet]
     [ProducesResponseType(200)]
@@ -37,13 +38,13 @@ public class GeneratorController(ILogger<GeneratorController> logger, RealEstate
                 var batch = RealEstateApplicationGenerator.GenerateLinks(currentBatchSize);
 
                 await producerService.SendAsync(batch);
-                logger.LogInformation("Batch of {batchSize} items has been sent", batchSize);
+                logger.LogInformation("Batch of {currentBatchSize} items has been sent", currentBatchSize);
                 
-                sent += batchSize;
+                sent += currentBatchSize;
 
                 list.AddRange(batch);
 
-                if (waitTime > 0 && sent < payloadLimit)
+                if (sent < payloadLimit)
                     await Task.Delay(TimeSpan.FromSeconds(waitTime), cancellationToken);
             }
 
